@@ -6,7 +6,6 @@ void setup(){
 int pedoVal;
 int lastPedoVal = 0;
 int steps = 0;
-int foundStep = false;
 int foundTime = 0;
 int elapsedTime = 0;
 
