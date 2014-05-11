@@ -124,9 +124,39 @@ void updateProgressBar(){
 int frameLength = 80;
 int rgbGreen[] = {0,200,0};
 int rgbBlue[] = {0,0,200};
+int rgbBlack[] = {0,0,0};
 
 void playCelebration(){
   swipeColor(rgbGreen, 1);
+  swipeColor(rgbBlue, -1);
+  swipeColor(rgbGreen, 1);
+  swipeColor(rgbBlue, -1);
+  
+  flashColors(rgbBlue, rgbBlack, 5);
+}
+
+void flashColors(int rgbVals_1[], int rgbVals_2[], int flashCount){
+  while(flashCount > 0){
+    flashCount--;
+    
+    for (int i = 0; i < ledCount; i++){
+      red[i] = rgbVals_1[0];
+      green[i] = rgbVals_1[1];
+      blue[i] = rgbVals_1[2];
+    }
+    drawToStrip();
+    delay(frameLength);
+    
+    for (int i = 0; i < ledCount; i++){
+      red[i] = rgbVals_2[0];
+      green[i] = rgbVals_2[1];
+      blue[i] = rgbVals_2[2];
+    }
+    drawToStrip();
+    delay(frameLength);
+    
+    
+  }
 }
 
 void swipeColor(int rgbVals[], int swipeDirection){
@@ -140,7 +170,7 @@ void swipeColor(int rgbVals[], int swipeDirection){
     }
   }
   else if (swipeDirection == -1){
-    for(int i = ledCount; i >= 0; i--){
+    for(int i = ledCount-1; i >= 0; i--){
         red[i] = rgbVals[0];
         green[i] = rgbVals[1];
         blue[i] = rgbVals[2];
