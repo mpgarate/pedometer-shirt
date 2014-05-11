@@ -1,6 +1,6 @@
 #include <Adafruit_NeoPixel.h>
 
-const int pedometerPin = A5;
+const int pedometerPin = 9;
 const int neoPin = 6;
 
 // number of LEDs in the strip
@@ -9,6 +9,11 @@ const int ledCount = 10;
 // neopixel LED series
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(ledCount, neoPin, NEO_GRB + NEO_KHZ800);
 
+// total number of steps counted today
+int steps = 0;
+
+// desired step count
+int stepGoal = 20;
 
 void setup(){
   Serial.begin(9600);
@@ -21,9 +26,16 @@ void loop(){
   
   updateStepCount();
   
-  if (elapsedTimeForLed(100)){
-    randomizeLeds();
+  
+  // if goal has been reached
+  // celebrate and start over
+  if (steps > stepGoal){
+    playCelebration();
+    steps = 0;
   }
+  
+  updateProgressBar();
+
 }
 
 
@@ -44,9 +56,6 @@ boolean elapsedTimeForLed(int interval){
 }
 
 
-// total number of steps counted today
-int steps = 0;
-
 // analog value of pedometer sensor set each loop
 int pedoVal;
 
@@ -63,6 +72,8 @@ void updateStepCount(){
   pedoVal = analogRead(pedometerPin);
     
   if (pedoVal != lastPedoVal){
+    
+    //Serial.println(pedoVal);
     stepElapsedTime = millis() - stepFoundTime;
     if (stepElapsedTime > 100){
       steps++;
@@ -71,7 +82,7 @@ void updateStepCount(){
     stepFoundTime = millis();
     
     //Serial.println(elapsedTime);
-    Serial.println(steps);
+    //Serial.println(steps);
   }
   
   lastPedoVal = pedoVal;
@@ -83,14 +94,38 @@ int red[ledCount];
 int green[ledCount];
 int blue[ledCount];
 
-void randomizeLeds(){
-  for(int i=0;i<ledCount;i++){
-    red[i] = random(127);
-    green[i] = random(127);
-    blue[i] = random(127);
-  }
+void updateProgressBar(){
   
+  float percentComplete = (float)steps / (float)stepGoal;
+  float activeLeds = (float) ledCount * percentComplete;
+  
+  Serial.println(activeLeds);
+  
+  for(int i=ledCount;i>=0;i--){
+    
+    if (activeLeds > 0){
+      activeLeds -= 1;
+      
+      red[i] = 0;
+      green[i] = 0;
+      blue[i] = 200;
+    }
+    else{
+      red[i] = 140;
+      green[i] = 80;
+      blue[i] = 0;
+    }
+    
+  }
   drawToStrip();
+}
+
+
+int frameLength = 50;
+void playCelebration(){
+  for(int i = i; i < ledCount; i++){
+    
+  }
 }
 
 void drawToStrip(){

@@ -3,7 +3,7 @@
 #define PIN 6
 
 
-const int ledCount = 3;
+const int ledCount = 10;
 
 int red[ledCount];
 int green[ledCount];
