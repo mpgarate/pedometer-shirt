@@ -13,7 +13,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(ledCount, neoPin, NEO_GRB + NEO_KHZ8
 int steps = 0;
 
 // desired step count
-int stepGoal = 20;
+int stepGoal = 5;
 
 void setup(){
   Serial.begin(9600);
@@ -121,10 +121,32 @@ void updateProgressBar(){
 }
 
 
-int frameLength = 50;
+int frameLength = 80;
+int rgbGreen[] = {0,200,0};
+int rgbBlue[] = {0,0,200};
+
 void playCelebration(){
-  for(int i = i; i < ledCount; i++){
-    
+  swipeColor(rgbGreen, 1);
+}
+
+void swipeColor(int rgbVals[], int swipeDirection){
+  if (swipeDirection == 1){
+    for(int i = 0; i < ledCount; i++){
+        red[i] = rgbVals[0];
+        green[i] = rgbVals[1];
+        blue[i] = rgbVals[2];
+        drawToStrip();
+        delay(frameLength);
+    }
+  }
+  else if (swipeDirection == -1){
+    for(int i = ledCount; i >= 0; i--){
+        red[i] = rgbVals[0];
+        green[i] = rgbVals[1];
+        blue[i] = rgbVals[2];
+        drawToStrip();
+        delay(frameLength);
+    }
   }
 }
 
