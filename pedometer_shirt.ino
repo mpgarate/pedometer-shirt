@@ -73,7 +73,7 @@ void updateStepCount(){
     
   if (pedoVal != lastPedoVal){
     
-    //Serial.println(pedoVal);
+    Serial.println(pedoVal);
     stepElapsedTime = millis() - stepFoundTime;
     if (stepElapsedTime > 100){
       steps++;
@@ -82,10 +82,10 @@ void updateStepCount(){
     stepFoundTime = millis();
     
     //Serial.println(elapsedTime);
-    //Serial.println(steps);
+    Serial.println(steps);
   }
   
-  lastPedoVal = pedoVal;
+  //lastPedoVal = pedoVal;
 }
 
 
@@ -99,7 +99,7 @@ void updateProgressBar(){
   float percentComplete = (float)steps / (float)stepGoal;
   float activeLeds = (float) ledCount * percentComplete;
   
-  Serial.println(activeLeds);
+  //Serial.println(activeLeds);
   
   for(int i=ledCount;i>=0;i--){
     
